@@ -1,7 +1,8 @@
-import React from 'react';
-import Tile from '../components/Tile';
-import Button from '../components/Button';
-import Display from '../components/Display';
+import React from "react";
+import Tile from "../components/Tile";
+import Button from "../components/Button";
+import Display from "../components/Display";
+import sentry from "sentry-node-module";
 
 //statefull
 // class TicTacToe extends React.Component {
@@ -35,40 +36,52 @@ import Display from '../components/Display';
 // }
 
 //stateless
-const TicTacToe = ({ player, tiles = [], message, winnerTile, onSetTile = f => f,onChangeTile = f => f, onReset = f => f }) => {
-    
-    return (
-        <div>
-            <div className="grid">
-                {
-                    tiles.map((value, tile) => (
-                        <Tile key={tile}
-                            index = {tile}
-                            state={value}
-                            onClick={() => {
-                                onSetTile(tile, tiles, player);
-                                onChangeTile(tile, tiles, player);
-                            }}
-                           
+const TicTacToe = ({
+  player,
+  tiles = [],
+  message,
+  winnerTile,
+  onSetTile = f => f,
+  onChangeTile = f => f,
+  onReset = f => f
+}) => {
+  return (
+    <div>
+      <div className="grid">
+        {tiles.map((value, tile) => (
+          <Tile
+            key={tile}
+            index={tile}
+            state={value}
+            onClick={() => {
+              onSetTile(tile, tiles, player);
+              onChangeTile(tile, tiles, player);
+            }}
+            winningTile={winnerTile}
+          />
+        ))}
+      </div>
 
-                            winningTile = {winnerTile}
-                        />
-                    ))
-                }
-            </div>
+      <Display message={message} />
 
-            <Display message={message} />
+      <div className="panel">
+        <Button
+          onClick={() => {
+            try {
+              onReset();
+              throw new Error("error on reset button");
+            } catch (err) {
+              sentry.configure("63798fbf-da44-4b96-87c2-a8303bfa535d");
+              sentry.log({
+                message: "message lsfjaosdihfisifhesd",
+                error: err
+              });
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 
-            <div className="panel">
-                <Button
-                    onClick={() => {
-                        onReset()
-                    }}
-                />
-            </div>
-        </div>
-    )
-
-}
-
-export default TicTacToe
+export default TicTacToe;

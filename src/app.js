@@ -1,24 +1,21 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+import React, { Component } from "react";
+import { Provider } from "react-redux";
 
-import store from './store';
+import store from "./store";
 
-import './app.css';
+import "./app.css";
 
-// import TodoList from './views/todoList';
-import TicTacToe from './views/ticTacToe';
+import TicTacToe from "./views/ticTacToe";
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-     
         {/* <div className="app"> */}
-          {/* <TodoList /> */}
-          
-          <TicTacToe/>
-          
+        {/* <TodoList /> */}
+
+        <TicTacToe />
+
         {/* </div> */}
-       
       </Provider>
     );
   }
